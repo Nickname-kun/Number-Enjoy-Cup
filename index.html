@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Math Contest</title>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)'], ['$', '$']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(to right, #f0f2f5, #c0c0c0);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .nav-bar {
+            background-color: #333;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .nav-bar a {
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .nav-bar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+        }
+        .nav-menu a {
+            margin: 0 10px;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 4px 0;
+            transition: 0.4s;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            margin: 20px auto;
+            box-sizing: border-box;
+            flex-grow: 1;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #555;
+        }
+        input[type="text"], input[type="password"], input[type="email"], input[type="number"] {
+            width: calc(100% - 24px);
+            padding: 14px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .logout-button {
+            background: #dc3545;
+        }
+        .logout-button:hover {
+            background: #c82333;
+        }
+        .link-button {
+            background: #17a2b8;
+            margin-top: 20px;
+        }
+        .link-button:hover {
+            background: #138496;
+        }
+        .problem-card {
+            background: #f8f9fa;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            font-size: 16px;
+            display: inline-block;
+            width: calc(33.333% - 20px);
+            box-sizing: border-box;
+        }
+        .problem-card:hover {
+            background: #e9ecef;
+            transform: translateY(-5px);
+        }
+        #question {
+            background: #f8f9fa;
+            color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .math {
+            font-size: 1.2em;
+        }
+        #result {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+        @media (max-width: 768px) {
+            .problem-card {
+                width: calc(50% - 20px);
+            }
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+            }
+            .nav-menu a {
+                margin: 0;
+                padding: 10px 0;
+                border-top: 1px solid #fff;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .nav-bar.active .nav-menu {
+                display: flex;
+            }
+        }
+        @media (max-width: 480px) {
+            .problem-card {
+                width: 100%;
+            }
+        }
+    </style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, doc, getDoc, setDoc, updateDoc, query, where, getDocs, increment, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQ9nbqvBtcxUqCbJtfMZDKCqcJpUqoJeE",
+            authDomain: "math-contest-sample-9ea80.firebaseapp.com",
+            projectId: "math-contest-sample-9ea80",
+            storageBucket: "math-contest-sample-9ea80.appspot.com",
+            messagingSenderId: "665665902076",
+            appId: "1:665665902076:web:ec060c279d21f229978e79",
+            measurementId: "G-L2B5B25X1Y"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                const userData = userDoc.data();
+                if (user.emailVerified) {
+                    document.getElementById('welcome').innerText = `ようこそ、${userData.nickname}さん！`;
+                    document.getElementById('auth-container').style.display = 'none';
+                    document.getElementById('main-container').style.display = 'block';
+                    loadUserScore(user.uid);
+                    loadProblems();
+                } else {
+                    document.getElementById('auth-container').style.display = 'none';
+                    document.getElementById('main-container').style.display = 'block';
+                    document.getElementById('email-verification').style.display = 'block';
+                }
+            } else {
+                document.getElementById('auth-container').style.display = 'block';
+                document.getElementById('main-container').style.display = 'none';
+            }
+        });
+
+        window.login = async function() {
+            const nickname = document.getElementById('login-nickname').value;
+            const password = document.getElementById('login-password').value;
+            try {
+                const q = query(collection(db, "users"), where("nickname", "==", nickname));
+                const querySnapshot = await getDocs(q);
+                if (querySnapshot.empty) {
+                    throw new Error("ニックネームまたはパスワードが間違っています。");
+                }
+                querySnapshot.forEach((doc) => {
+                    const user = doc.data();
+                    signInWithEmailAndPassword(auth, user.email, password).then(() => {
+                        if (auth.currentUser.emailVerified) {
+                            document.getElementById('welcome').innerText = `ようこそ、${user.nickname}さん！`;
+                            document.getElementById('auth-container').style.display = 'none';
+                            document.getElementById('main-container').style.display = 'block';
+                            loadUserScore(user.uid);
+                            loadProblems();
+                        } else {
+                            alert("メールアドレスの確認が必要です。");
+                        }
+                    }).catch((error) => {
+                        throw new Error("ニックネームまたはパスワードが間違っています。");
+                    });
+                });
+            } catch (error) {
+                alert("ログイン失敗: " + error.message);
+            }
+        }
+
+        window.register = async function() {
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const nickname = document.getElementById('register-nickname').value;
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                await setDoc(doc(db, "users", userCredential.user.uid), {
+                    nickname: nickname,
+                    email: email,
+                    score: 0,
+                    correctProblems: [],
+                    wrongProblems: []
+                });
+                await updateProfile(userCredential.user, {
+                    displayName: nickname
+                });
+                await sendEmailVerification(userCredential.user);
+                alert("確認メールを送信しました。メールを確認してください。");
+                document.getElementById('auth-container').style.display = 'none';
+                document.getElementById('main-container').style.display = 'block';
+                document.getElementById('email-verification').style.display = 'block';
+            } catch (error) {
+                alert("登録失敗: " + error.message);
+            }
+        }
+
+        window.sendVerificationEmail = async function() {
+            try {
+                await sendEmailVerification(auth.currentUser);
+                alert("確認メールを再送信しました。メールを確認してください。");
+            } catch (error) {
+                alert("確認メールの再送信に失敗しました: " + error.message);
+            }
+        }
+
+        window.logout = async function() {
+            try {
+                await signOut(auth);
+                alert("ログアウト成功！");
+                document.getElementById('auth-container').style.display = 'block';
+                document.getElementById('main-container').style.display = 'none';
+            } catch (error) {
+                alert("ログアウト失敗: " + error.message);
+            }
+        }
+
+        async function loadProblems() {
+            const problemsContainer = document.getElementById('problems');
+            problemsContainer.innerHTML = '';
+            const problemsSnapshot = await getDocs(collection(db, "problems"));
+            problemsSnapshot.forEach((doc) => {
+                const problem = doc.data();
+                const problemCard = document.createElement('div');
+                problemCard.className = 'problem-card';
+                problemCard.innerHTML = `${problem.title}<br>スコア: ${problem.score}`;
+                problemCard.onclick = () => selectProblem(doc.id);
+                problemsContainer.appendChild(problemCard);
+            });
+        }
+
+        async function selectProblem(problemId) {
+            const problemDoc = await getDoc(doc(db, "problems", problemId));
+            const problem = problemDoc.data();
+            document.getElementById('question').innerHTML = `${problem.title}: <span class="math">${problem.question}</span> <br> スコア: ${problem.score}`;
+            document.getElementById('submit-answer').onclick = () => submitAnswer(problemId);
+            MathJax.typeset();
+        }
+
+        async function submitAnswer(problemId) {
+            const answer = parseFloat(document.getElementById('answer').value);
+            const problemDoc = await getDoc(doc(db, "problems", problemId));
+            const problem = problemDoc.data();
+            const user = auth.currentUser;
+            const userRef = doc(db, "users", user.uid);
+            const userDoc = await getDoc(userRef);
+            const userData = userDoc.data();
+            const baseScore = 100;
+
+            if (answer === problem.answer) {
+                const scoreToAdd = problem.score;
+                if (!userData.correctProblems.includes(problemId)) {
+                    await updateDoc(userRef, {
+                        score: increment(scoreToAdd),
+                        correctProblems: arrayUnion(problemId)
+                    });
+                    alert("CorrectAnswer.");
+                    loadUserScore(user.uid);
+                } else {
+                    alert("この問題は既に正解しています！");
+                }
+            } else {
+                if (!userData.wrongProblems.includes(problemId)) {
+                    await updateDoc(userRef, {
+                        wrongProblems: arrayUnion(problemId)
+                    });
+                }
+                alert("WrongAnswer.");
+            }
+        }
+
+        async function loadUserScore(userId) {
+            const userDoc = await getDoc(doc(db, "users", userId));
+            const userData = userDoc.data();
+            document.getElementById('score').innerText = `スコア: ${userData.score}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const navBar = document.querySelector('.nav-bar');
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.addEventListener('click', function() {
+                navBar.classList.toggle('active');
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html">ホーム</a>
+            <a href="submissions.html">提出状況</a>
+            <a href="ranking.html">ランキング</a>
+          <a href="users.html">ユーザーリスト</a>
+          <a href="profile.html">プロフィール</a>
+            <a href="javascript:void(0);" onclick="logout()">ログアウト</a>
+        </div>
+    </div>
+    <div class="container">
+        <div id="auth-container">
+            <h1>オンライン数学コンテスト</h1>
+            <div id="login-container">
+                <h2>ログイン</h2>
+                <input type="text" id="login-nickname" placeholder="ニックネーム">
+                <input type="password" id="login-password" placeholder="パスワード">
+                <button onclick="login()">ログイン</button>
+            </div>
+            <div id="register-container">
+                <h2>登録</h2>
+                <input type="text" id="register-nickname" placeholder="ニックネーム">
+                <input type="email" id="register-email" placeholder="メールアドレス">
+                <input type="password" id="register-password" placeholder="パスワード">
+                <button onclick="register()">登録</button>
+            </div>
+        </div>
+        <div id="main-container" style="display:none;">
+            <h2 id="welcome">ようこそ！</h2>
+            <p id="score">スコア: 0</p>
+            <div id="email-verification" style="display:none;">
+                <p>メールアドレスの確認が必要です。メールを確認してください。</p>
+                <button onclick="sendVerificationEmail()">確認メールを再送信</button>
+            </div>
+            <h2>問題一覧</h2>
+            <div id="problems" class="problems"></div>
+            <h2>現在の問題</h2>
+            <div id="question" class="question">問題を選択してください。</div>
+            <input type="number" id="answer" placeholder="回答">
+            <button id="submit-answer">回答を提出</button>
+        </div>
+    </div>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>
