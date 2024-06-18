@@ -218,7 +218,6 @@ const firebaseConfig = {
             const userRef = doc(db, "users", user.uid);
             const userDoc = await getDoc(userRef);
             const userData = userDoc.data();
-            const baseScore = 100;
             const timestamp = new Date();
 
             const userUpdateData = {
@@ -230,7 +229,7 @@ const firebaseConfig = {
             };
 
             if (answer === problem.answer) {
-                const scoreToAdd = baseScore * problem.score;
+                const scoreToAdd = problem.score;
                 if (!userData.correctProblems.includes(problemId)) {
                     userUpdateData.score = increment(scoreToAdd);
                     userUpdateData.correctProblems = arrayUnion(problemId);
