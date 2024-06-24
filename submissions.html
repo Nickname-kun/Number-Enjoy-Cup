@@ -156,7 +156,7 @@ const firebaseConfig = {
                 const li = document.createElement('li');
                 const problemTitle = problems[submission.problemId].title || '問題不明';
                 li.className = submission.correct ? 'correct' : 'wrong';
-                li.innerText = `${problemTitle}: ${submission.correct ? '正解' : '不正解'}`;
+                li.innerText = `${problemTitle}: ${submission.correct ? 'CA' : 'WA'}`;
                 submissionsList.appendChild(li);
             });
         }
