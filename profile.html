@@ -330,7 +330,7 @@ const firebaseConfig = {
                     alert("アカウントが削除されました。");
                     window.location.href = "index.html";
                 } catch (error) {
-                    alert("アカウント削除に失敗しました: " + error.message);
+                    alert("アカウント削除に失敗しました。ログインし直してからもう一度お試しください。: " + error.message);
                 }
             }
         }
