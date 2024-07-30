@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:url" content="https://nickname-kun.github.io/Number-Enjoy-Cup/">
+   <meta property="og:type" content="article">
+   <meta property="og:title" content="提出状況|Number Enjoy Cup">
+   <meta property="og:description" content="Number Enjoy CupはLINEオープンチャット「競技数学対策本部」が提供する競技数学対策のための新しいコミュニティです。">
+   <meta property="og:site_name" content="Number Enjoy Cup">
+   <meta property="og:image" content="https://nickname-kun.github.io/Number-Enjoy-Cup/logo/OGP.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+    <title>提出状況|Number Enjoy Cup</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+<link rel="manifest" href="favicons/site.webmanifest">
+<link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+    <style>
+      @charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond&display=swap');
+
+/* ---------------------------------------------------------------------------------------------
+
+　   リセット
+
+--------------------------------------------------------------------------------------------- */
+html, body, div, span, applet, object, iframe, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video,picture {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  /*font: inherit;*/
+  vertical-align: baseline;
+  line-height: 1.5em;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  margin : 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  empty-cells: show;
+}
+
+img {
+  vertical-align: bottom;
+  border: none;
+}
+picture {
+  display: block;
+}
+
+/* ---------------------------------------------------------------------------------------------
+
+　   設定をしなおす
+
+--------------------------------------------------------------------------------------------- */
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(to right, #f0f2f5, #c0c0c0);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }      
+
+a {
+  outline:none;
+  color: #2e2e2e;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a,a:hover,a:hover img {
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+  text-decoration: none;
+}
+
+a:hover {
+  filter: alpha(opacity=80);
+  -moz-opacity:0.80;
+  opacity:0.80;
+}
+img {
+    max-width: 100%;
+    height: auto;
+    width /***/:auto;　/*IE8のみ適用*/
+}
+
+* {
+  -webkit-box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  box-sizing:border-box;
+}
+
+/* ---------------------------------------------------------------------------------------------
+
+　   メニュー
+
+--------------------------------------------------------------------------------------------- */
+#nav li a {
+  display: block;
+  color: #fff;
+  position: relative;
+}
+#nav .menu-item-has-children > a:after,#nav .menu-item-has-children > a:before {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 0; 
+  right: 0;
+  bottom: 0;
+  right: 20px;
+  margin: auto;
+  width: 10px;
+  height: 1px;
+  background: #fff;
+  transition: .2s;
+}
+#nav .menu-item-has-children > a:after {
+  transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+}
+#nav .menu-item-has-children > a.open:before{
+  transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+}
+#nav .menu-item-has-children > a.open:after{
+  background: transparent;
+}
+#nav .menu-item-has-children .sub-menu {
+  display: none;
+}
+@media only screen and ( max-width : 767px ) {
+  .overlay {
+    width: 0;
+    height: 0;
+    position: fixed;
+    z-index: 11;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity .5s;
+    background: rgba(255,255,255,.7);
+  }
+  .overlay.open {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+  }
+  #main {
+    transition: all .5s;
+    min-height: 100vh;
+  }
+  #main.open {
+    position: fixed;
+    width: 100%;
+  }
+  #menu_btn {
+    top: 12px;
+    right: 15px;
+    transition: .3s;
+    cursor: pointer;
+    position: fixed;
+    z-index: 9999;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .menu-trigger {
+    width: 18px;
+    height: 16px;
+    position: relative;
+  }
+  .menu-trigger span {
+    display: inline-block;
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #ddd;
+    transition: all .5s;
+  }
+  .menu-trigger span:nth-of-type(1) {
+    top: 0;
+  }
+  .menu-trigger span:nth-of-type(2) {
+    width: 70%;
+    top: 7px;
+  }
+  .menu-trigger span:nth-of-type(3) {
+    bottom: 0;
+  }
+  #menu_btn.active .menu-trigger span:nth-of-type(1) {
+    transform: translateY(7px) rotate(-45deg);
+  }
+  #menu_btn.active .menu-trigger span:nth-of-type(2) {
+    opacity: 0;
+  }
+  #menu_btn.active .menu-trigger span:nth-of-type(3) {
+    transform: translateY(-7px) rotate(45deg);
+  }
+  #nav {
+    width: 280px;
+    height: 100%;
+    overflow: auto;
+    padding: 90px 0;
+    background: #000;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 12;
+    transform: translate(280px);
+    transition: all .5s;
+  }
+  #nav.open {
+    transform: translateZ(0);
+  }
+  #nav li {
+    padding: 0 20px;
+  }
+  #nav li a {
+    position: relative;
+    padding: 20px;
+    color: #fff;
+  }
+  #nav .menu-item-has-children .sub-menu {
+    padding: 20px;
+  }
+  #nav .menu-item-has-children > a.open:first-of-type {
+    color: #dad4ec;
+  }
+  #nav .menu-item-has-children .sub-menu li {
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  #nav .menu-item-has-children .sub-menu li:last-child {
+    margin-bottom: 0;
+  }
+  #nav .menu-item-has-children .sub-menu li a {
+    padding: 0;
+  }
+}
+
+@media print, screen and ( min-width : 768px ) {
+  #menu_btn,.overlay {
+    display: none;
+  }
+  #nav ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  #nav li {
+    position: relative;
+  }
+  #nav li a {
+    padding: 20px;
+    font-size: 10.8px;
+  }
+  #nav .menu-item-has-children > a {
+    padding-right: 40px;
+  }
+  #nav .menu-item-has-children > a.open:first-of-type,#nav .current-menu-item a {
+    color: white;
+  }
+  #nav .current-menu-item li a {
+    color: #fff;
+  }
+  #nav li ul.sub-menu {
+    flex-direction: column;
+    background: black;
+    position: absolute;
+    width: 200px;
+    left: 50%;
+    top: 100%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    padding: 10px 0;
+  }
+  #nav li ul.sub-menu li {
+    width: 100%;
+  }
+  #nav li ul.sub-menu li a {
+    line-height: 1.6em;
+    color: yellow;
+    padding: 10px 20px;
+  }
+  #nav li ul.sub-menu li a:hover {
+    color: #dad4ec;
+  }
+}
+
+/* ---------------------------------------------------------------------------------------------
+
+　   HEADER / FOOTER
+
+--------------------------------------------------------------------------------------------- */
+header {
+  width: 100%;
+  background: rgba(0,0,0,1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+header #logo a {
+  display: block;
+  font-size: 30px;
+}
+footer {
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  background: #000;
+}
+footer a {
+  color: #ddd;
+  letter-spacing: 0.15em;
+}
+@media only screen and ( max-width : 767px ) {
+  header {
+    padding: 0 20px;
+    height: 70px;
+  }
+  header #logo {
+    width: 300px;
+  }
+}
+@media print, screen and ( min-width : 768px ) {
+  header {
+    padding: 0 10px;
+  }
+  header #logo {
+    width: 400px;
+  }
+}
+
+
+/* ---------------------------------------------------------------------------------------------
+
+　   ページスタイル
+
+--------------------------------------------------------------------------------------------- */
+section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8vw;
+  color: rgba(0,0,0,.4);
+}
+#sec01 {
+  background-image: linear-gradient(to top, #dad4ec 0%, #dad4ec 1%, #f3e7e9 100%);
+}
+#sec02 {
+  background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
+}
+#sec03 {
+  background-color: #CDDCDC;
+  background-image: radial-gradient(at 50% 100%, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%), linear-gradient(to bottom, rgba(255,255,255,0.25) 0%, rgba(0,0,0,0.25) 100%);
+  background-blend-mode: screen, overlay;
+}
+#sec04 {
+  background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
+}
+      body {
+          font-family: 'Helvetica Neue', Arial, sans-serif;
+          background: linear-gradient(to right, #f0f2f5, #c0c0c0);
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+      }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            margin: 97px auto;
+            box-sizing: border-box;
+            flex-grow: 1;
+        }
+        a {
+          text-decoration: none;
+          font-size: 20px;
+          color: white;
+          font-family: 'Courgette'
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 8px;
+        }
+        .correct {
+            background: #d4edda;
+            color: #155724;
+        }
+        .wrong {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+<script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCiVkb4cR6hFXw6LLGSzCQqY3uWcRY5gik",
+  authDomain: "number-enjoy-cup.firebaseapp.com",
+  projectId: "number-enjoy-cup",
+  storageBucket: "number-enjoy-cup.appspot.com",
+  messagingSenderId: "829617862605",
+  appId: "1:829617862605:web:b96a8ec094d21c89113684",
+  measurementId: "G-9XVM8KSX5L"
+};
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        async function loadSubmissions(user) {
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            const userData = userDoc.data();
+            const submissionsList = document.getElementById('submissions');
+            document.getElementById('user').innerText = `Hi, ${userData.nickname}!`;
+            submissionsList.innerHTML = '';
+
+            const problemsSnapshot = await getDocs(collection(db, "problems"));
+            const problems = {};
+            problemsSnapshot.forEach((doc) => {
+                problems[doc.id] = doc.data();
+            });
+
+            userData.submissions.sort((a, b) => b.timestamp.toDate() - a.timestamp.toDate()).forEach(submission => {
+                const li = document.createElement('li');
+                const problemTitle = problems[submission.problemId].title || '問題不明';
+                li.className = submission.correct ? 'correct' : 'wrong';
+                li.innerText = `${problemTitle}: ${submission.correct ? 'CA' : 'WA'}`;
+                submissionsList.appendChild(li);
+            });
+        }
+
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                loadSubmissions(user);
+            } else {
+                window.location.href = 'index.html';
+                alert("このページはログインが必要です");
+            }
+        });
+
+        window.logout = async function() {
+            try {
+                await signOut(auth);
+                alert("ログアウト成功！");
+                window.location.href = 'index.html';
+            } catch (error) {
+                alert("ログアウト失敗: " + error.message);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const navBar = document.querySelector('.nav-bar');
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            hamburger.addEventListener('click', function() {
+                navBar.classList.toggle('active');
+            });
+        });
+</script>
+</head>
+<body>
+    <header id="header">
+	<div id="logo"><a href="index.html"><img src="logo.jpg" alt="Number Enjoy Cup"></a></div>
+	<div id="menu_btn">
+		<div class="menu-trigger">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</div>
+	<nav id="nav">
+		<ul class="nav">
+          <li><a href="home.html">• ホーム</a></li>
+			<li class="menu-item-has-children current-menu-item">
+				<a href="#">• コミュニティ</a>
+				<ul class="sub-menu">
+					<li><a href="problems.html">問題一覧</a></li>
+					<li><a href="ranking.html">ランキング</a></li>
+					<li><a href="submissions.html">提出状況</a></li>
+                  <li><a href="add_problem.html">問題追加</a></li>
+				</ul>
+			</li>
+          <li class="menu-item-has-children current-menu-item">
+				<a href="#">• 数楽杯</a>
+				<ul class="sub-menu">
+					<li><a href="su_gakuhai.html">数楽杯について</a></li>
+                  <li><a href="contest.html">過去のコンテスト</a></li>
+				</ul>
+			</li>
+          <li><a href="users.html">• ユーザー</a></li>
+			<li class="menu-item-has-children">
+              <a href="#"><h6 id="user"></h6></a>
+              <ul class="sub-menu">
+					<li><a href="profile.html">プロフィール</a></li>
+					<li><a href="javascript:void(0);" onclick="logout()">ログアウト</a></li>
+				</ul>
+			</li>
+		</ul>
+	</nav>
+	<div class="overlay"></div>
+</header>
+    <div class="container">
+        <h1>提出状況</h1>
+        <ul id="submissions"></ul>
+        <button onclick="window.location.href='problems.html'">問題一覧に戻る</button>
+    </div>
+     <footer id="footer"><a  href="
+https://line.me/ti/g2/h-5-GaQCddr5H9uCoV61JQ9Rfwrons0zs-YS9w?utm_source=invitation&utm_medium=link_copy&utm_campaign=default">&copy; 競技数学対策本部</a></footer>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="nav.js"></script>
+</body>
+</html>
